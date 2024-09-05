@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Equipment = require('../models/Equipment');
 
-// Add equipment
-router.post('/', async (req, res) => {
+router.post('/add', async (req, res) => {
   try {
     const equipment = new Equipment(req.body);
     const savedEquipment = await equipment.save();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormInput from "../components/FormInput";
 import FormSelect from "../components/FormSelect";
+import axios from "axios";
 
 const equipmentTypes = [
   "Mixer",
@@ -14,7 +15,7 @@ const equipmentTypes = [
 const AddEquipment: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    type: "",
+    type: "mixer",
     category: "",
     brand: "",
     model: "",
@@ -47,12 +48,21 @@ const AddEquipment: React.FC = () => {
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
 
-    // Handle nested fields
+    // Handle the type field
+    if (name === "type") {
+      setFormData((prevState) => ({
+        ...prevState,
+        type: value,
+      }));
+      return;
+    }
+
+    // Handle nested fields like specifications
     if (name.startsWith("specifications.")) {
       const field = name.split(".").slice(1).join(".");
       setFormData((prevState) => ({
@@ -100,15 +110,14 @@ const AddEquipment: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    fetch("/api/equipment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then(() => {
+    axios
+      .post("http://localhost:5000/api/equipment/add", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
         navigate("/admin");
       })
       .catch((error) => {
