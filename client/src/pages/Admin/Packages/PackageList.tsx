@@ -54,13 +54,13 @@ const PackageList: React.FC = () => {
                 ))}
               </div>
               <Link
-                to={`/package/${pkg._id}`}
+                to={`/admin/package/${pkg._id}`}
                 className='text-blue-500 hover:underline mt-2 block'
               >
                 View Details
               </Link>
               <Link
-                to={`/package/edit/${pkg._id}`}
+                to={`/admin/package/edit/${pkg._id}`}
                 className='text-blue-500 hover:underline mt-2 block'
               >
                 Edit Package

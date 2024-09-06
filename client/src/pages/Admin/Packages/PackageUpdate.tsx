@@ -65,7 +65,7 @@ const PackageUpdate: React.FC = () => {
           ...pkg,
           equipment: selectedEquipment,
         });
-        navigate(`/package/${id}`); // Redirect to the package details page
+        navigate(`/admin/package/${id}`); // Redirect to the package details page
       } catch (error) {
         console.error("Error updating package:", error);
       }

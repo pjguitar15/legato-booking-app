@@ -27,10 +27,16 @@ const Navbar: React.FC = () => {
           {!token ? (
             <>
               <Link
-                to='/package-list'
+                to='/packages'
                 className='text-white hover:underline'
               >
                 Package List
+              </Link>
+              <Link
+                to='/equipment'
+                className='text-white hover:underline'
+              >
+                Equipment List
               </Link>
               <Link
                 to='/login'
@@ -47,12 +53,6 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <>
-              <Link
-                to='/packages' // Add this line for users
-                className='text-white hover:underline'
-              >
-                Packages
-              </Link>
               {isAdmin && (
                 <>
                   <Link
@@ -62,25 +62,25 @@ const Navbar: React.FC = () => {
                     Admin
                   </Link>
                   <Link
-                    to='/add-equipment'
+                    to='/admin/add-equipment'
                     className='text-white hover:underline'
                   >
                     Add Equipment
                   </Link>
                   <Link
-                    to='/equipment-list'
+                    to='/admin/equipment'
                     className='text-white hover:underline'
                   >
                     Equipment List
                   </Link>
                   <Link
-                    to='/create-package'
+                    to='/admin/create-package'
                     className='text-white hover:underline'
                   >
                     Create Package
                   </Link>
                   <Link
-                    to='/packages'
+                    to='/admin/packages'
                     className='text-white hover:underline'
                   >
                     Package List

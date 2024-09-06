@@ -14,12 +14,12 @@ const Admin: React.FC = () => {
 
   const handleAddEquipment = () => {
     // Redirect to Add Equipment page
-    navigate("/add-equipment");
+    navigate("/admin/add-equipment");
   };
 
   const handleViewEquipmentList = () => {
     // Redirect to Equipment List page
-    navigate("/equipment-list");
+    navigate("/admin/equipment");
   };
 
   return (

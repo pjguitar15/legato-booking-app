@@ -5,7 +5,7 @@ export interface Equipment {
   imageUrl: string;
   description?: string; // Add more fields as needed
   type?: string;
-  price?: number;
+  pricePerDay?: number;
 }
 
 export interface Package {

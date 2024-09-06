@@ -27,14 +27,14 @@ const PackageDetails: React.FC = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:5000/api/packages/delete/${id}`);
-      navigate("/packages"); // Redirect to package list after deletion
+      navigate("/admin/packages"); // Redirect to package list after deletion
     } catch (error) {
       console.error("Error deleting package:", error);
     }
   };
 
   const handleUpdate = () => {
-    navigate(`/package/edit/${id}`); // Redirect to the update page
+    navigate(`/admin/package/edit/${id}`); // Redirect to the update page
   };
 
   return (
@@ -63,9 +63,9 @@ const PackageDetails: React.FC = () => {
                     <p className='text-gray-600'>{eq.description}</p>
                   )}
                   {eq.type && <p className='text-gray-600'>Type: {eq.type}</p>}
-                  {eq.price && (
+                  {eq.pricePerDay && (
                     <p className='text-gray-600'>
-                      Price: ${eq.price.toFixed(2)}
+                      Price: ${eq?.pricePerDay.toFixed(2)}
                     </p>
                   )}
                 </div>

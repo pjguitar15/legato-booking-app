@@ -14,6 +14,7 @@ import PrivateRoute from "./pages/Admin/PrivateRoute";
 import PackageUpdate from "./pages/Admin/Packages/PackageUpdate";
 import PackageList from "./pages/Admin/Packages/PackageList";
 import UserPackageList from "./pages/Public/UserPackageList";
+import EquipmentPage from "./pages/Public/EquipmentPage";
 
 const App: React.FC = () => (
   <Router>
@@ -24,8 +25,12 @@ const App: React.FC = () => (
         element={<Home />}
       />
       <Route
-        path='/package-list'
+        path='/packages'
         element={<UserPackageList />}
+      />
+      <Route
+        path='/equipment'
+        element={<EquipmentPage />}
       />
       <Route
         path='/login'
@@ -40,27 +45,27 @@ const App: React.FC = () => (
         element={<PrivateRoute element={<Admin />} />}
       />
       <Route
-        path='/add-equipment'
+        path='/admin/add-equipment'
         element={<PrivateRoute element={<AddEquipment />} />}
       />
       <Route
-        path='/equipment-list'
+        path='/admin/equipment'
         element={<PrivateRoute element={<EquipmentList />} />}
       />
       <Route
-        path='/create-package'
+        path='/admin/create-package'
         element={<PrivateRoute element={<CreatePackage />} />}
       />
       <Route
-        path='/packages'
+        path='/admin/packages'
         element={<PrivateRoute element={<PackageList />} />} // Route for PackageList
       />
       <Route
-        path='/package/:id'
+        path='/admin/package/:id'
         element={<PrivateRoute element={<PackageDetails />} />} // Route for PackageDetails
       />
       <Route
-        path='/package/edit/:id'
+        path='/admin/package/edit/:id'
         element={<PrivateRoute element={<PackageUpdate />} />} // Route for PackageDetails
       />
     </Routes>

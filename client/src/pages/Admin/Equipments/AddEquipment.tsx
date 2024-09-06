@@ -4,7 +4,9 @@ import FormInput from "../../../components/FormInput";
 import FormSelect from "../../../components/FormSelect";
 import axios from "axios";
 
-const EQUIPMENT_CATEGORIES = ["Sound", "Lights"] as const;
+// Define categories as a mutable array
+const EQUIPMENT_CATEGORIES: string[] = ["Sound", "Lights"];
+
 const EQUIPMENT_CONDITIONS = [
   "New",
   "Like New",
@@ -157,6 +159,7 @@ const AddEquipment: React.FC = () => {
             options={[
               "Mixer",
               "Drumset",
+              "Speakers",
               "Microphone",
               "PAR Light",
               "Guitar Amplifier",
@@ -208,7 +211,7 @@ const AddEquipment: React.FC = () => {
             id='condition'
             name='condition'
             value={formData.condition}
-            options={EQUIPMENT_CONDITIONS}
+            options={[...EQUIPMENT_CONDITIONS]} // Convert readonly tuple to mutable array
             onChange={handleChange}
           />
           <FormInput
