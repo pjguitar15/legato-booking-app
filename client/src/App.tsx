@@ -15,6 +15,7 @@ import PackageUpdate from "./pages/Admin/Packages/PackageUpdate";
 import PackageList from "./pages/Admin/Packages/PackageList";
 import UserPackageList from "./pages/Public/UserPackageList";
 import EquipmentPage from "./pages/Public/EquipmentPage";
+import BookingStepOne from "./pages/Public/BookingStepOne";
 
 const App: React.FC = () => (
   <Router>
@@ -28,6 +29,11 @@ const App: React.FC = () => (
         path='/packages'
         element={<UserPackageList />}
       />
+      <Route
+        path='/booking/:packageId'
+        element={<BookingStepOne />}
+      />
+
       <Route
         path='/equipment'
         element={<EquipmentPage />}

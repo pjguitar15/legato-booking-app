@@ -1,11 +1,13 @@
 // src/pages/UserPackageList.tsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Package, Equipment } from "../../types/PackageTypes"; // Import the Package and Equipment interfaces
+import { Package, Equipment } from "../../types/PackageTypes";
+import PackageModal from "./PackageModal";
 
 const UserPackageList: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -21,6 +23,16 @@ const UserPackageList: React.FC = () => {
 
     fetchPackages();
   }, []);
+
+  const openModal = (pkg: Package) => {
+    setSelectedPackage(pkg);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedPackage(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className='p-6'>
@@ -49,21 +61,29 @@ const UserPackageList: React.FC = () => {
                       {eq.brand} {eq.model}
                     </p>
                     {eq.description && <p>{eq.description}</p>}
-                    {eq.price && <p>Price: ${eq.price.toFixed(2)}</p>}
+                    {eq.pricePerDay && <p>Price: ${eq.pricePerDay.toFixed(2)}</p>}
                     {eq.type && <p>Type: {eq.type}</p>}
                   </li>
                 ))}
               </ul>
-              <Link
-                to={`/package/${pkg._id}`}
+              <button
+                onClick={() => openModal(pkg)}
                 className='text-blue-500 hover:underline mt-4 block'
               >
                 View Details
-              </Link>
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && selectedPackage && (
+        <PackageModal
+          packageData={selectedPackage}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };

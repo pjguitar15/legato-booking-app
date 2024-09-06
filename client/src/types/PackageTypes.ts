@@ -6,6 +6,7 @@ export interface Equipment {
   description?: string; // Add more fields as needed
   type?: string;
   pricePerDay?: number;
+  quantityAvailable: number;
 }
 
 export interface Package {
