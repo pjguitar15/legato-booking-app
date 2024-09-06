@@ -27,8 +27,15 @@ const Register: React.FC = () => {
         }
       );
 
-      setSuccess(response.data.message);
-      // Redirect or perform other actions on success
+      // Get the token from the response
+      const { token } = response.data;
+
+      // Store the token in localStorage (or cookies if you prefer)
+      localStorage.setItem("token", token);
+
+      setSuccess("User registered successfully");
+
+      // Optionally redirect or perform other actions
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || "Something went wrong.");

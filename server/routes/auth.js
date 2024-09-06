@@ -4,6 +4,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 // Register
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
@@ -22,7 +24,11 @@ router.post('/register', async (req, res) => {
     const user = new User({ email, password: hashedPassword });
 
     await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(201).json({ message: 'User registered successfully', token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });

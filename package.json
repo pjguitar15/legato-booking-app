@@ -1,0 +1,12 @@
+{
+  "name": "legato-booking-app",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "nodemon index --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
