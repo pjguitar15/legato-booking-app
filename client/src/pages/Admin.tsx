@@ -17,6 +17,11 @@ const Admin: React.FC = () => {
     navigate("/add-equipment");
   };
 
+  const handleViewEquipmentList = () => {
+    // Redirect to Equipment List page
+    navigate("/equipment-list");
+  };
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl'>
@@ -24,12 +29,17 @@ const Admin: React.FC = () => {
         <p className='text-gray-700 mb-6'>
           Manage your bookings and settings here.
         </p>
-        {/* Add additional admin functionality here */}
         <button
           onClick={handleAddEquipment}
           className='mt-4 py-2 px-4 bg-green-500 text-white font-semibold rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
         >
           Add Equipment
+        </button>
+        <button
+          onClick={handleViewEquipmentList}
+          className='mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+        >
+          View Equipment List
         </button>
         <button
           onClick={handleLogout}

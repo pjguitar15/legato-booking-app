@@ -6,8 +6,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import AddEquipment from "./pages/AddEquipment"; // Import the AddEquipment page
+import EquipmentList from "./pages/EquipmentList"; // Import the EquipmentList page
 import Navbar from "./components/Navbar";
-import PrivateRoute from "./pages/PrivateRoute"; // Import PrivateRoute component
+import PrivateRoute from "./pages/PrivateRoute";
 
 const App: React.FC = () => (
   <Router>
@@ -32,6 +33,10 @@ const App: React.FC = () => (
       <Route
         path='/add-equipment'
         element={<PrivateRoute element={<AddEquipment />} />}
+      />
+      <Route
+        path='/equipment-list'
+        element={<PrivateRoute element={<EquipmentList />} />}
       />
     </Routes>
   </Router>
