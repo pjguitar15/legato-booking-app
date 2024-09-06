@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { Package, Equipment } from "../types/PackageTypes"; // Import the Package and Equipment interfaces
+import { Package, Equipment } from "../../../types/PackageTypes"; // Import the Package and Equipment interfaces
 
 const PackageUpdate: React.FC = () => {
   const { id } = useParams<{ id: string }>();

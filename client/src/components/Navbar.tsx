@@ -1,3 +1,4 @@
+// src/components/Navbar.tsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -26,6 +27,12 @@ const Navbar: React.FC = () => {
           {!token ? (
             <>
               <Link
+                to='/package-list'
+                className='text-white hover:underline'
+              >
+                Package List
+              </Link>
+              <Link
                 to='/login'
                 className='text-white hover:underline'
               >
@@ -40,6 +47,12 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <>
+              <Link
+                to='/packages' // Add this line for users
+                className='text-white hover:underline'
+              >
+                Packages
+              </Link>
               {isAdmin && (
                 <>
                   <Link
@@ -67,7 +80,7 @@ const Navbar: React.FC = () => {
                     Create Package
                   </Link>
                   <Link
-                    to='/packages' // Add this line
+                    to='/packages'
                     className='text-white hover:underline'
                   >
                     Package List

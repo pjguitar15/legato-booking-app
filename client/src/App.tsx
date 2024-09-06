@@ -1,18 +1,19 @@
 // src/App.tsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Admin from "./pages/Admin";
-import AddEquipment from "./pages/AddEquipment";
-import EquipmentList from "./pages/EquipmentList";
-import CreatePackage from "./pages/CreatePackage";
-import PackageDetails from "./pages/PackageDetails"; // Import the PackageDetails page
+import Home from "./pages/Public/Home";
+import Login from "./pages/Public/Login";
+import Register from "./pages/Public/Register";
+import Admin from "./pages/Admin/Admin";
+import AddEquipment from "./pages/Admin/Equipments/AddEquipment";
+import EquipmentList from "./pages/Admin/Equipments/EquipmentList";
+import CreatePackage from "./pages/Admin/Packages/CreatePackage";
+import PackageDetails from "./pages/Admin/Packages/PackageDetails"; // Import the PackageDetails page
 import Navbar from "./components/Navbar";
-import PrivateRoute from "./pages/PrivateRoute";
-import PackageList from "./pages/Packagelist";
-import PackageUpdate from "./pages/PackageUpdate";
+import PrivateRoute from "./pages/Admin/PrivateRoute";
+import PackageUpdate from "./pages/Admin/Packages/PackageUpdate";
+import PackageList from "./pages/Admin/Packages/PackageList";
+import UserPackageList from "./pages/Public/UserPackageList";
 
 const App: React.FC = () => (
   <Router>
@@ -21,6 +22,10 @@ const App: React.FC = () => (
       <Route
         path='/'
         element={<Home />}
+      />
+      <Route
+        path='/package-list'
+        element={<UserPackageList />}
       />
       <Route
         path='/login'

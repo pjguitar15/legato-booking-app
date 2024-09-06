@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormInput from "../components/FormInput";
-import FormSelect from "../components/FormSelect";
+import FormInput from "../../../components/FormInput";
+import FormSelect from "../../../components/FormSelect";
 import axios from "axios";
 
-const equipmentTypes = [
-  "Mixer",
-  "Drumset",
-  "Microphone",
-  "PAR Light",
-  "Guitar Amplifier",
-];
+const EQUIPMENT_CATEGORIES = ["Sound", "Lights"] as const;
+const EQUIPMENT_CONDITIONS = [
+  "New",
+  "Like New",
+  "Used",
+  "Refurbished",
+] as const;
 
 const AddEquipment: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    type: "mixer",
-    category: "",
+    type: "Mixer",
+    category: "" as (typeof EQUIPMENT_CATEGORIES)[number],
     brand: "",
     model: "",
     specifications: {
@@ -34,7 +34,7 @@ const AddEquipment: React.FC = () => {
     },
     pricePerDay: 0,
     quantityAvailable: 0,
-    condition: "",
+    condition: "" as (typeof EQUIPMENT_CONDITIONS)[number],
     location: "",
     imageUrl: "",
     description: "",
@@ -43,7 +43,7 @@ const AddEquipment: React.FC = () => {
 
   // Conditional fields based on equipment type
   const isMixer = formData.type === "Mixer";
-  const isLight = formData.type === "PAR Light";
+  const isLight = formData.type === "Lights";
   const isMicrophone = formData.type === "Microphone";
 
   const handleChange = (
@@ -57,7 +57,24 @@ const AddEquipment: React.FC = () => {
     if (name === "type") {
       setFormData((prevState) => ({
         ...prevState,
-        type: value,
+        type: value as typeof formData.type,
+      }));
+      return;
+    }
+
+    // Handle the category and condition fields
+    if (name === "category") {
+      setFormData((prevState) => ({
+        ...prevState,
+        category: value as typeof formData.category,
+      }));
+      return;
+    }
+
+    if (name === "condition") {
+      setFormData((prevState) => ({
+        ...prevState,
+        condition: value as typeof formData.condition,
       }));
       return;
     }
@@ -137,16 +154,21 @@ const AddEquipment: React.FC = () => {
             id='type'
             name='type'
             value={formData.type}
-            options={equipmentTypes}
+            options={[
+              "Mixer",
+              "Drumset",
+              "Microphone",
+              "PAR Light",
+              "Guitar Amplifier",
+            ]}
             onChange={handleChange}
           />
-          <FormInput
+          <FormSelect
             id='category'
             name='category'
             value={formData.category}
+            options={EQUIPMENT_CATEGORIES}
             onChange={handleChange}
-            placeholder='Category'
-            required
           />
           <FormInput
             id='brand'
@@ -182,13 +204,12 @@ const AddEquipment: React.FC = () => {
             placeholder='Quantity Available'
             required
           />
-          <FormInput
+          <FormSelect
             id='condition'
             name='condition'
             value={formData.condition}
+            options={EQUIPMENT_CONDITIONS}
             onChange={handleChange}
-            placeholder='Condition'
-            required
           />
           <FormInput
             id='location'

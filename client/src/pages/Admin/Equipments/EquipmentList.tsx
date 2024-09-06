@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import EquipmentModal from "../components/EquipmentModal";
+import EquipmentModal from "../../../components/EquipmentModal";
 import EditEquipment from "./EditEquipment";
 
 interface Equipment {

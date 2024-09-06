@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { Package } from "../types/PackageTypes"; // Import the Package interface
+import { Package } from "../../../types/PackageTypes"; // Import the Package interface
 
 const PackageDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
