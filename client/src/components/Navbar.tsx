@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const token = localStorage.getItem("token");
-  // Assuming that admin tokens or roles are identified in some way.
-  // You might need to adjust this logic based on how you handle admin authentication.
   const isAdmin = !!token; // Modify this condition to properly check for admin role.
   const navigate = useNavigate();
 
@@ -61,6 +59,18 @@ const Navbar: React.FC = () => {
                     className='text-white hover:underline'
                   >
                     Equipment List
+                  </Link>
+                  <Link
+                    to='/create-package'
+                    className='text-white hover:underline'
+                  >
+                    Create Package
+                  </Link>
+                  <Link
+                    to='/packages' // Add this line
+                    className='text-white hover:underline'
+                  >
+                    Package List
                   </Link>
                 </>
               )}

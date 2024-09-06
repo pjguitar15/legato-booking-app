@@ -5,14 +5,18 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
-import AddEquipment from "./pages/AddEquipment"; // Import the AddEquipment page
-import EquipmentList from "./pages/EquipmentList"; // Import the EquipmentList page
+import AddEquipment from "./pages/AddEquipment";
+import EquipmentList from "./pages/EquipmentList";
+import CreatePackage from "./pages/CreatePackage";
+import PackageDetails from "./pages/PackageDetails"; // Import the PackageDetails page
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./pages/PrivateRoute";
+import PackageList from "./pages/Packagelist";
+import PackageUpdate from "./pages/PackageUpdate";
 
 const App: React.FC = () => (
   <Router>
-    <Navbar /> {/* Add the Navbar component here */}
+    <Navbar />
     <Routes>
       <Route
         path='/'
@@ -37,6 +41,22 @@ const App: React.FC = () => (
       <Route
         path='/equipment-list'
         element={<PrivateRoute element={<EquipmentList />} />}
+      />
+      <Route
+        path='/create-package'
+        element={<PrivateRoute element={<CreatePackage />} />}
+      />
+      <Route
+        path='/packages'
+        element={<PrivateRoute element={<PackageList />} />} // Route for PackageList
+      />
+      <Route
+        path='/package/:id'
+        element={<PrivateRoute element={<PackageDetails />} />} // Route for PackageDetails
+      />
+      <Route
+        path='/package/edit/:id'
+        element={<PrivateRoute element={<PackageUpdate />} />} // Route for PackageDetails
       />
     </Routes>
   </Router>
