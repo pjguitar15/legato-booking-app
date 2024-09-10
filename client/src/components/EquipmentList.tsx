@@ -6,7 +6,7 @@ interface EquipmentListProps {
   availableEquipment: Equipment[];
   isEditing: boolean;
   setSelectedEquipment: React.Dispatch<React.SetStateAction<Equipment[]>>;
-  packageData: Package | null; // Ensure this matches the actual type
+  packageData: Package | null;
   updateAvailableEquipment: (
     selected: Equipment[],
     allEquipment: Equipment[]
@@ -30,7 +30,12 @@ const EquipmentList: React.FC<EquipmentListProps> = ({
         const updated = existing
           ? prev.map((item) =>
               item._id === eq._id
-                ? { ...item, quantity: item.quantityAvailable + quantity }
+                ? {
+                    ...item,
+                    quantity: item.quantityAvailable
+                      ? item.quantityAvailable + quantity
+                      : quantity,
+                  }
                 : item
             )
           : [...prev, { ...eq, quantity }];

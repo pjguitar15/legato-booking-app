@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Package, Equipment } from "../../types/PackageTypes";
@@ -21,27 +21,59 @@ const BookingStepOne: React.FC = () => {
   } = useBookingContext();
   const navigate = useNavigate();
 
+  // Calculate total price
+  const calculateTotalPrice = useCallback(
+    (equipmentList: Equipment[], basePrice: number) => {
+      if (!packageData) return;
+
+      const defaultEquipmentIds = new Set(
+        packageData.equipment.map((eq) => eq._id)
+      );
+
+      const additionalPrice = equipmentList.reduce((sum, eq) => {
+        if (!defaultEquipmentIds.has(eq._id)) {
+          return sum + (eq.pricePerDay || 0);
+        }
+        return sum;
+      }, 0);
+
+      setIsCustomized(additionalPrice > 0);
+      setTotalPrice(basePrice + additionalPrice);
+    },
+    [packageData]
+  );
+
+  // Update available equipment
+  const updateAvailableEquipment = useCallback(
+    (selected: Equipment[], allEquipment: Equipment[]) => {
+      const selectedIds = new Set(selected.map((eq) => eq._id));
+      const available = allEquipment.filter((eq) => !selectedIds.has(eq._id));
+      setAvailableEquipment(available);
+    },
+    []
+  );
+
+  // Fetch data and initialize state
   useEffect(() => {
     const fetchData = async () => {
       try {
         const packageResponse = await axios.get<Package>(
           `http://localhost:5000/api/packages/${packageId}`
         );
-        console.log("Fetched Package Data:", packageResponse.data);
         setPackageData(packageResponse.data);
 
         const equipmentResponse = await axios.get<Equipment[]>(
           "http://localhost:5000/api/equipment/all"
         );
-        console.log("Fetched Equipment Data:", equipmentResponse.data);
 
-        const initialEquipment = selectedEquipment.length
-          ? selectedEquipment
-          : packageResponse.data.equipment;
-
-        setSelectedEquipment(initialEquipment);
-        updateAvailableEquipment(initialEquipment, equipmentResponse.data);
-        calculateTotalPrice(initialEquipment, packageResponse.data.price);
+        // Initialize selected equipment only if it's empty
+        if (selectedEquipment.length === 0) {
+          setSelectedEquipment(packageResponse.data.equipment);
+        } else {
+          // Update available equipment and total price
+          updateAvailableEquipment(selectedEquipment, equipmentResponse.data);
+          calculateTotalPrice(selectedEquipment, packageResponse.data.price);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -50,43 +82,27 @@ const BookingStepOne: React.FC = () => {
     if (packageId) {
       fetchData();
     }
-  }, [packageId]);
+  }, [
+    packageId,
+    selectedEquipment,
+    setSelectedEquipment,
+    setPackageData,
+    updateAvailableEquipment,
+    calculateTotalPrice,
+  ]);
 
+  // Handle changes to selected equipment or packageData
   useEffect(() => {
     if (packageData) {
       calculateTotalPrice(selectedEquipment, packageData.price);
+      updateAvailableEquipment(selectedEquipment, packageData.equipment);
     }
-  }, [selectedEquipment, packageData]);
-
-  const calculateTotalPrice = (
-    equipmentList: Equipment[],
-    basePrice: number
-  ) => {
-    if (!packageData) return;
-
-    const defaultEquipmentIds = new Set(
-      packageData.equipment.map((eq) => eq._id)
-    );
-
-    const additionalPrice = equipmentList.reduce((sum, eq) => {
-      if (!defaultEquipmentIds.has(eq._id)) {
-        return sum + (eq.pricePerDay || 0);
-      }
-      return sum;
-    }, 0);
-
-    setIsCustomized(additionalPrice > 0);
-    setTotalPrice(basePrice + additionalPrice);
-  };
-
-  const updateAvailableEquipment = (
-    selected: Equipment[],
-    allEquipment: Equipment[]
-  ) => {
-    const selectedIds = new Set(selected.map((eq) => eq._id));
-    const available = allEquipment.filter((eq) => !selectedIds.has(eq._id));
-    setAvailableEquipment(available);
-  };
+  }, [
+    selectedEquipment,
+    packageData,
+    calculateTotalPrice,
+    updateAvailableEquipment,
+  ]);
 
   const handleNextStep = () => {
     if (selectedEquipment.length > 0 && packageData) {

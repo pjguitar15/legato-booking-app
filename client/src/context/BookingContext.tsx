@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { BookingContextType, Equipment, Package } from "../types/PackageTypes";
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -26,6 +27,8 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   );
 
+  const location = useLocation();
+
   useEffect(() => {
     localStorage.setItem("packageData", JSON.stringify(packageData));
   }, [packageData]);
@@ -36,6 +39,13 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({
       JSON.stringify(selectedEquipment)
     );
   }, [selectedEquipment]);
+
+  // Clear selectedEquipment from localStorage when navigating away from /booking
+  useEffect(() => {
+    if (!location.pathname.startsWith("/booking")) {
+      localStorage.removeItem("selectedEquipment");
+    }
+  }, [location.pathname]);
 
   return (
     <BookingContext.Provider
