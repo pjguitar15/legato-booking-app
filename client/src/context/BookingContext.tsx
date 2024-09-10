@@ -1,4 +1,3 @@
-// src/context/BookingContext.tsx
 import React, {
   createContext,
   useState,
@@ -6,12 +5,15 @@ import React, {
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
-import { Equipment } from "../types/PackageTypes";
+import { Equipment, Package } from "../types/PackageTypes";
 
 interface BookingContextType {
   selectedEquipment: Equipment[];
-  setSelectedEquipment: Dispatch<SetStateAction<Equipment[]>>; // Correct type
+  setSelectedEquipment: Dispatch<SetStateAction<Equipment[]>>;
+  packageData: Package | null;
+  setPackageData: Dispatch<SetStateAction<Package | null>>;
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -20,10 +22,20 @@ export const BookingProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment[]>([]);
+  const [packageData, setPackageData] = useState<Package | null>(null);
+
+  useEffect(() => {
+    console.log("CONTEXT DATA", { selectedEquipment, packageData });
+  }, [selectedEquipment, packageData]);
 
   return (
     <BookingContext.Provider
-      value={{ selectedEquipment, setSelectedEquipment }}
+      value={{
+        selectedEquipment,
+        setSelectedEquipment,
+        packageData,
+        setPackageData,
+      }}
     >
       {children}
     </BookingContext.Provider>

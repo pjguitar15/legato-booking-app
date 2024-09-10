@@ -26,19 +26,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     setIsEditing(false);
   };
 
-  const handleProceed = () => {
-    // Logic to proceed to the next step
-  };
-
   return (
     <div className='mt-6 flex justify-between'>
       {!isEditing ? (
-        <button
-          onClick={handleCustomize}
-          className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-        >
-          Customize
-        </button>
+        <>
+          <button
+            onClick={handleCustomize}
+            className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+          >
+            Customize
+          </button>
+        </>
       ) : (
         <>
           <button
@@ -46,12 +44,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600'
           >
             Save
-          </button>
-          <button
-            onClick={handleProceed}
-            className='bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600'
-          >
-            Proceed
           </button>
         </>
       )}

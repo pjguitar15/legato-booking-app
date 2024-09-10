@@ -17,6 +17,7 @@ import UserPackageList from "./pages/Public/UserPackageList";
 import EquipmentPage from "./pages/Public/EquipmentPage";
 import BookingStepOne from "./pages/Public/BookingStepOne";
 import { BookingProvider } from "./context/BookingContext"; // Import the BookingProvider
+import ProtectedBookingStepTwo from "./pages/Public/ProtectedBookingStepTwo";
 
 const App: React.FC = () => (
   <Router>
@@ -34,8 +35,12 @@ const App: React.FC = () => (
           element={<UserPackageList />}
         />
         <Route
-          path='/booking/:packageId'
+          path='/booking/step-one/:packageId'
           element={<BookingStepOne />}
+        />
+        <Route
+          path='/booking/step-two/:packageId'
+          element={<ProtectedBookingStepTwo />}
         />
         <Route
           path='/equipment'

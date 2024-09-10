@@ -45,7 +45,7 @@ const PackageModal: React.FC<PackageModalProps> = ({
           </ul>
           <div className='mt-6 flex justify-end'>
             <Link
-              to={`/booking/${packageData._id}`} // Adjust the route as needed
+              to={`/booking/step-one/${packageData._id}`} // Adjust the route as needed
               className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
             >
               Book This Package

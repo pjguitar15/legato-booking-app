@@ -1,6 +1,5 @@
-// src/pages/Public/BookingStepOne.tsx
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Package, Equipment } from "../../types/PackageTypes";
 import EquipmentList from "../../components/EquipmentList";
@@ -10,40 +9,47 @@ import { useBookingContext } from "../../context/BookingContext";
 
 const BookingStepOne: React.FC = () => {
   const { packageId } = useParams<{ packageId: string }>();
-  const [packageData, setPackageData] = useState<Package | null>(null);
   const [availableEquipment, setAvailableEquipment] = useState<Equipment[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [isCustomized, setIsCustomized] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { selectedEquipment, setSelectedEquipment } = useBookingContext();
-  const [loading, setLoading] = useState<boolean>(true); // Add loading state
+  const {
+    selectedEquipment,
+    setSelectedEquipment,
+    packageData,
+    setPackageData,
+  } = useBookingContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
       try {
         const packageResponse = await axios.get<Package>(
           `http://localhost:5000/api/packages/${packageId}`
         );
+        console.log("Fetched Package Data:", packageResponse.data);
+        setPackageData(packageResponse.data);
+
         const equipmentResponse = await axios.get<Equipment[]>(
           "http://localhost:5000/api/equipment/all"
         );
+        console.log("Fetched Equipment Data:", equipmentResponse.data);
 
-        setPackageData(packageResponse.data);
+        const initialEquipment = selectedEquipment.length
+          ? selectedEquipment
+          : packageResponse.data.equipment;
 
-        const initialEquipment = packageResponse.data.equipment;
         setSelectedEquipment(initialEquipment);
-
         updateAvailableEquipment(initialEquipment, equipmentResponse.data);
         calculateTotalPrice(initialEquipment, packageResponse.data.price);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false); // End loading
       }
     };
 
-    fetchData();
+    if (packageId) {
+      fetchData();
+    }
   }, [packageId]);
 
   useEffect(() => {
@@ -82,33 +88,51 @@ const BookingStepOne: React.FC = () => {
     setAvailableEquipment(available);
   };
 
-  if (loading) {
-    return <div className='p-6 text-center'>Loading...</div>; // Show loading state
-  }
+  const handleNextStep = () => {
+    if (selectedEquipment.length > 0 && packageData) {
+      navigate(`/booking/step-two/${packageId}`);
+    } else {
+      alert("Please select at least one piece of equipment.");
+    }
+  };
 
   return (
     <div className='p-6'>
-      <h1 className='text-3xl font-bold mb-4'>Package: {packageData?.name}</h1>
-      <EquipmentList
-        selectedEquipment={selectedEquipment}
-        availableEquipment={availableEquipment}
-        isEditing={isEditing}
-        setSelectedEquipment={setSelectedEquipment}
-        packageData={packageData}
-        updateAvailableEquipment={updateAvailableEquipment}
-        calculateTotalPrice={(equipmentList) =>
-          calculateTotalPrice(equipmentList, packageData?.price || 0)
-        }
-      />
-      <TotalPrice
-        totalPrice={isCustomized ? totalPrice : packageData?.price || 0}
-      />
-      <ActionButtons
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-        selectedEquipment={selectedEquipment}
-        packageId={packageId}
-      />
+      <h1 className='text-3xl font-bold mb-4'>
+        Package: {packageData?.name || "Loading..."}
+      </h1>
+      {packageData ? (
+        <>
+          <EquipmentList
+            selectedEquipment={selectedEquipment}
+            availableEquipment={availableEquipment}
+            isEditing={isEditing}
+            setSelectedEquipment={setSelectedEquipment}
+            packageData={packageData}
+            updateAvailableEquipment={updateAvailableEquipment}
+            calculateTotalPrice={(equipmentList) =>
+              calculateTotalPrice(equipmentList, packageData?.price || 0)
+            }
+          />
+          <TotalPrice
+            totalPrice={isCustomized ? totalPrice : packageData?.price || 0}
+          />
+          <ActionButtons
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            selectedEquipment={selectedEquipment}
+            packageId={packageId}
+          />
+          <button
+            onClick={handleNextStep}
+            className='mt-4 px-4 py-2 bg-blue-500 text-white rounded'
+          >
+            Proceed
+          </button>
+        </>
+      ) : (
+        <p>Loading package data...</p>
+      )}
     </div>
   );
 };
