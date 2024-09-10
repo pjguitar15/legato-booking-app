@@ -1,4 +1,3 @@
-// src/pages/Public/BookingStepTwo.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBookingContext } from "../../context/BookingContext";
@@ -6,7 +5,7 @@ import { useBookingContext } from "../../context/BookingContext";
 const eventTypes = ["PARTY", "FULL BAND", "WEDDING"];
 
 const BookingStepTwo: React.FC = () => {
-  const { packageData } = useBookingContext();
+  const { packageData, selectedEquipment } = useBookingContext();
   const [eventDate, setEventDate] = useState<string>("");
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
@@ -39,52 +38,75 @@ const BookingStepTwo: React.FC = () => {
       <h1 className='text-3xl font-bold mb-4'>
         {packageData?.name ? packageData.name : "Customized Package"}
       </h1>
+
+      <h2 className='text-2xl font-semibold mb-4'>Equipment Included:</h2>
+      <ul className='list-disc pl-5 mb-6'>
+        {selectedEquipment.map((equipment) => (
+          <li
+            key={equipment._id}
+            className='mb-2'
+          >
+            {equipment.brand}
+          </li>
+        ))}
+      </ul>
+
+      <h2 className='text-2xl font-semibold mb-4'>
+        Total Package Amount: ${packageData?.price || "0.00"}
+      </h2>
+
       <form>
-        <label>
+        <label className='block mb-2'>
           Event Date:
           <input
             type='date'
             value={eventDate}
             onChange={(e) => setEventDate(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
-        <label>
+        <label className='block mb-2'>
           Start Time:
           <input
             type='time'
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
-        <label>
+        <label className='block mb-2'>
           End Time:
           <input
             type='time'
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
-        <label>
+        <label className='block mb-2'>
           Setup Time:
           <input
             type='text'
             value={setupTime}
             onChange={(e) => setSetupTime(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
-        <label>
+        <label className='block mb-2'>
           Venue Address:
           <input
             type='text'
             value={venueAddress}
             onChange={(e) => setVenueAddress(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
-        <label>
+        <label className='block mb-2'>
           Type of Event:
           <select
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
+            className='ml-2 p-1 border rounded'
           >
             {eventTypes.map((type) => (
               <option
@@ -96,12 +118,13 @@ const BookingStepTwo: React.FC = () => {
             ))}
           </select>
         </label>
-        <label>
+        <label className='block mb-4'>
           Event Size:
           <input
             type='text'
             value={eventSize}
             onChange={(e) => setEventSize(e.target.value)}
+            className='ml-2 p-1 border rounded'
           />
         </label>
         <button

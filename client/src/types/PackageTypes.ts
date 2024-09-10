@@ -15,3 +15,10 @@ export interface Package {
   price: number;
   equipment: Equipment[];
 }
+
+export interface BookingContextType {
+  packageData: Package | null;
+  setPackageData: React.Dispatch<React.SetStateAction<Package | null>>;
+  selectedEquipment: Equipment[];
+  setSelectedEquipment: React.Dispatch<React.SetStateAction<Equipment[]>>;
+}
