@@ -27,6 +27,20 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   );
 
+  // New form state variables
+  const [contactPerson, setContactPerson] = useState<string>("");
+  const [contactNumber, setContactNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [specialRequests, setSpecialRequests] = useState<string>("");
+
+  const [eventDate, setEventDate] = useState<string>("");
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const [setupTime, setSetupTime] = useState<string>("");
+  const [venueAddress, setVenueAddress] = useState<string>("");
+  const [eventType, setEventType] = useState<string>("");
+  const [eventSize, setEventSize] = useState<string>("");
+
   const location = useLocation();
 
   useEffect(() => {
@@ -40,7 +54,6 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   }, [selectedEquipment]);
 
-  // Clear selectedEquipment from localStorage when navigating away from /booking
   useEffect(() => {
     if (!location.pathname.startsWith("/booking")) {
       localStorage.removeItem("selectedEquipment");
@@ -50,10 +63,32 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <BookingContext.Provider
       value={{
+        contactPerson,
+        setContactPerson,
+        contactNumber,
+        setContactNumber,
+        email,
+        setEmail,
+        specialRequests,
+        setSpecialRequests,
         packageData,
         setPackageData,
         selectedEquipment,
         setSelectedEquipment,
+        eventDate,
+        setEventDate,
+        startTime,
+        setStartTime,
+        endTime,
+        setEndTime,
+        setupTime,
+        setSetupTime,
+        venueAddress,
+        setVenueAddress,
+        eventType,
+        setEventType,
+        eventSize,
+        setEventSize,
       }}
     >
       {children}

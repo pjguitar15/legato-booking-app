@@ -18,6 +18,7 @@ import EquipmentPage from "./pages/Public/EquipmentPage";
 import BookingStepOne from "./pages/Public/BookingStepOne";
 import { BookingProvider } from "./context/BookingContext"; // Import the BookingProvider
 import ProtectedBookingStepTwo from "./pages/Public/ProtectedBookingStepTwo";
+import ProtectedUserDetailsAndPayment from "./pages/Public/ProtectedUserDetailsAndPayment";
 
 const App: React.FC = () => (
   <Router>
@@ -42,6 +43,14 @@ const App: React.FC = () => (
           path='/booking/step-two/:packageId'
           element={<ProtectedBookingStepTwo />}
         />
+        <Route
+          path='/booking/step-three/:packageId'
+          element={<ProtectedUserDetailsAndPayment />}
+        />
+        {/* <Route
+          path='/booking/step-two/:packageId'
+          element={<ProtectedBookingStepTwo />}
+        /> */}
         <Route
           path='/equipment'
           element={<EquipmentPage />}

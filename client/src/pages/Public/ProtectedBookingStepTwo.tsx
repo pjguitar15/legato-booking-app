@@ -9,11 +9,7 @@ const ProtectedBookingStepTwo: React.FC = () => {
   // Check if packageData and selectedEquipment are set
   const isStepOneCompleted = packageData && selectedEquipment.length > 0;
 
-  return isStepOneCompleted ? (
-    <BookingStepTwo />
-  ) : (
-    <Navigate to='/booking/step-one' />
-  );
+  return isStepOneCompleted ? <BookingStepTwo /> : <Navigate to='/packages' />;
 };
 
 export default ProtectedBookingStepTwo;

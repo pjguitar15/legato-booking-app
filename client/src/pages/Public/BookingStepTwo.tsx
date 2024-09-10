@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useBookingContext } from "../../context/BookingContext";
 
 const eventTypes = ["PARTY", "FULL BAND", "WEDDING"];
 
 const BookingStepTwo: React.FC = () => {
-  const { packageData, selectedEquipment } = useBookingContext();
-  const [eventDate, setEventDate] = useState<string>("");
-  const [startTime, setStartTime] = useState<string>("");
-  const [endTime, setEndTime] = useState<string>("");
-  const [setupTime, setSetupTime] = useState<string>("");
-  const [venueAddress, setVenueAddress] = useState<string>("");
-  const [eventType, setEventType] = useState<string>("");
-  const [eventSize, setEventSize] = useState<string>("");
+  const {
+    packageData,
+    selectedEquipment,
+    eventDate,
+    setEventDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    setupTime,
+    setSetupTime,
+    venueAddress,
+    setVenueAddress,
+    eventType,
+    setEventType,
+    eventSize,
+    setEventSize,
+  } = useBookingContext();
   const navigate = useNavigate();
 
   const handlePreviousStep = () => {
@@ -20,18 +30,18 @@ const BookingStepTwo: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    // Handle form submission logic
-    console.log({
-      eventDate,
-      startTime,
-      endTime,
-      setupTime,
-      venueAddress,
-      eventType,
-      eventSize,
-    });
-    // Proceed to the next step or confirmation
+    if (packageData) {
+      navigate(`/booking/step-three/${packageData._id}`);
+    } else {
+      console.error("No package data available.");
+    }
   };
+
+  React.useEffect(() => {
+    if (!eventType) {
+      setEventType(eventTypes[0]);
+    }
+  }, [eventType, setEventType]);
 
   return (
     <div className='p-6'>
@@ -86,7 +96,7 @@ const BookingStepTwo: React.FC = () => {
         <label className='block mb-2'>
           Setup Time:
           <input
-            type='text'
+            type='time'
             value={setupTime}
             onChange={(e) => setSetupTime(e.target.value)}
             className='ml-2 p-1 border rounded'
@@ -128,12 +138,14 @@ const BookingStepTwo: React.FC = () => {
           />
         </label>
         <button
+          type='button'
           onClick={handleSubmit}
           className='mt-4 px-4 py-2 bg-green-500 text-white rounded'
         >
-          Submit
+          Next
         </button>
         <button
+          type='button'
           onClick={handlePreviousStep}
           className='mt-4 ml-4 px-4 py-2 bg-gray-500 text-white rounded'
         >
