@@ -16,65 +16,69 @@ import PackageList from "./pages/Admin/Packages/PackageList";
 import UserPackageList from "./pages/Public/UserPackageList";
 import EquipmentPage from "./pages/Public/EquipmentPage";
 import BookingStepOne from "./pages/Public/BookingStepOne";
+import { BookingProvider } from "./context/BookingContext"; // Import the BookingProvider
 
 const App: React.FC = () => (
   <Router>
-    <Navbar />
-    <Routes>
-      <Route
-        path='/'
-        element={<Home />}
-      />
-      <Route
-        path='/packages'
-        element={<UserPackageList />}
-      />
-      <Route
-        path='/booking/:packageId'
-        element={<BookingStepOne />}
-      />
-
-      <Route
-        path='/equipment'
-        element={<EquipmentPage />}
-      />
-      <Route
-        path='/login'
-        element={<Login />}
-      />
-      <Route
-        path='/register'
-        element={<Register />}
-      />
-      <Route
-        path='/admin'
-        element={<PrivateRoute element={<Admin />} />}
-      />
-      <Route
-        path='/admin/add-equipment'
-        element={<PrivateRoute element={<AddEquipment />} />}
-      />
-      <Route
-        path='/admin/equipment'
-        element={<PrivateRoute element={<EquipmentList />} />}
-      />
-      <Route
-        path='/admin/create-package'
-        element={<PrivateRoute element={<CreatePackage />} />}
-      />
-      <Route
-        path='/admin/packages'
-        element={<PrivateRoute element={<PackageList />} />} // Route for PackageList
-      />
-      <Route
-        path='/admin/package/:id'
-        element={<PrivateRoute element={<PackageDetails />} />} // Route for PackageDetails
-      />
-      <Route
-        path='/admin/package/edit/:id'
-        element={<PrivateRoute element={<PackageUpdate />} />} // Route for PackageDetails
-      />
-    </Routes>
+    <BookingProvider>
+      {" "}
+      {/* Wrap the application with the BookingProvider */}
+      <Navbar />
+      <Routes>
+        <Route
+          path='/'
+          element={<Home />}
+        />
+        <Route
+          path='/packages'
+          element={<UserPackageList />}
+        />
+        <Route
+          path='/booking/:packageId'
+          element={<BookingStepOne />}
+        />
+        <Route
+          path='/equipment'
+          element={<EquipmentPage />}
+        />
+        <Route
+          path='/login'
+          element={<Login />}
+        />
+        <Route
+          path='/register'
+          element={<Register />}
+        />
+        <Route
+          path='/admin'
+          element={<PrivateRoute element={<Admin />} />}
+        />
+        <Route
+          path='/admin/add-equipment'
+          element={<PrivateRoute element={<AddEquipment />} />}
+        />
+        <Route
+          path='/admin/equipment'
+          element={<PrivateRoute element={<EquipmentList />} />}
+        />
+        <Route
+          path='/admin/create-package'
+          element={<PrivateRoute element={<CreatePackage />} />}
+        />
+        <Route
+          path='/admin/packages'
+          element={<PrivateRoute element={<PackageList />} />}
+        />
+        <Route
+          path='/admin/package/:id'
+          element={<PrivateRoute element={<PackageDetails />} />}
+        />
+        <Route
+          path='/admin/package/edit/:id'
+          element={<PrivateRoute element={<PackageUpdate />} />}
+        />
+      </Routes>
+    </BookingProvider>
   </Router>
 );
 
